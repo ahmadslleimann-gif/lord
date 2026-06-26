@@ -1,10 +1,9 @@
 name: Deploy to server
 
-# Deploys the site over SSH (rsync) every time you push to main.
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:        # lets you trigger a deploy manually from the Actions tab
+  workflow_dispatch:
 
 concurrency:
   group: deploy-${{ github.ref }}
@@ -13,6 +12,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,7 +22,13 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
-          ssh-keyscan -p "${{ secrets.SSH_PORT }}" -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+          ssh-keyscan -p "${{ secrets.SSH_PORT }}" -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Check server path
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "${{ secrets.SSH_PORT }}" \
+          "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+          "pwd && ls -la ${{ secrets.DEPLOY_PATH }}"
 
       - name: Deploy with rsync
         run: |
@@ -33,3 +39,9 @@ jobs:
             --exclude '.htaccess.example' \
             --exclude 'assets/js/products-data.backup.js' \
             ./ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}"
+
+      - name: Verify deployment
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "${{ secrets.SSH_PORT }}" \
+          "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+          "ls -la ${{ secrets.DEPLOY_PATH }}"
