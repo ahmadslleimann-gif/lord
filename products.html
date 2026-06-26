@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Collection — LORD | Luxury Perfumes &amp; Accessories</title>
+  <meta name="description" content="Browse the LORD collection — signature perfumes, eyewear, bags and accessories for men and women. Every piece authentic.">
+  <link rel="canonical" href="https://lordaccess.com/products.html">
+  <link rel="icon" type="image/png" href="assets/images/lion-gold.png">
+
+  <meta property="og:title" content="The Collection — LORD">
+  <meta property="og:description" content="Signature perfumes, eyewear, bags and accessories. Every piece authentic.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Lord Access">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#catalog">Skip to content</a>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- ====== LOADER ====== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <img class="loader-logo" src="assets/images/logo-gold.png" alt="" width="1600" height="511">
+    <div class="loader-bar"><i></i></div>
+  </div>
+
+  <!-- ====== NAV ====== -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand" aria-label="LORD — Home">
+        <span>
+          <img class="brand-logo" src="assets/images/logo-gold.png" alt="LORD" width="1600" height="511">
+          <span class="brand-tag">Your Accessory ... Your Signature</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="index.html#story">Our Story</a>
+        <a href="products.html?gender=men">Men</a>
+        <a href="products.html?gender=women">Women</a>
+        <a href="brands.html">Brands</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="products.html" class="nav-cta">Shop Now</a>
+      </nav>
+
+      <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+        <i></i><i></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ====== PAGE HEAD ====== -->
+  <section class="page-head">
+    <div class="container">
+      <span class="overline">The House Collection</span>
+      <h1 class="page-title gold-text" id="catalogTitle">All Pieces</h1>
+      <p class="page-sub" id="catalogCount" aria-live="polite">&nbsp;</p>
+    </div>
+  </section>
+
+  <!-- ====== TOOLBAR ====== -->
+  <div class="catalog-bar">
+    <div class="container catalog-bar-inner">
+      <div class="chips" id="genderChips" role="group" aria-label="Filter by gender">
+        <button class="chip active" data-gender="">All</button>
+        <button class="chip" data-gender="men">Men</button>
+        <button class="chip" data-gender="women">Women</button>
+        <button class="chip" data-gender="unisex">Unisex</button>
+      </div>
+
+      <div class="chips" id="categoryChips" role="group" aria-label="Filter by category">
+        <button class="chip active" data-category="">Everything</button>
+        <button class="chip" data-category="perfume">Perfumes</button>
+        <button class="chip" data-category="eyewear">Eyewear</button>
+        <button class="chip" data-category="bags">Bags</button>
+        <button class="chip" data-category="accessories">Accessories</button>
+      </div>
+
+      <span class="bar-spacer"></span>
+
+      <label class="catalog-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+        <input type="search" id="catalogSearch" placeholder="Search the collection…" aria-label="Search products">
+      </label>
+
+      <select class="catalog-select" id="brandSelect" aria-label="Filter by brand">
+        <option value="">All Brands</option>
+      </select>
+
+      <select class="catalog-select" id="sortSelect" aria-label="Sort products">
+        <option value="featured">Featured</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+        <option value="name_asc">Name: A to Z</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ====== GRID ====== -->
+  <main class="catalog" id="catalog">
+    <div class="container">
+      <div class="catalog-grid" id="catalogGrid" role="list" aria-label="Products"></div>
+
+      <div class="catalog-empty" id="catalogEmpty" hidden>
+        <img src="assets/images/lion-gold.png" alt="" width="539" height="539">
+        <b>Nothing matches your hunt</b>
+        <p>Try a different search, or clear the filters to see the full collection.</p>
+        <p style="margin-top:1.6rem"><button class="btn" id="clearFilters" type="button">Clear All Filters</button></p>
+      </div>
+
+      <div class="catalog-more" id="catalogMore" hidden>
+        <button class="btn" id="loadMore" type="button">Reveal More Pieces</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ====== QUICK VIEW ====== -->
+  <div class="qview" id="qview" role="dialog" aria-modal="true" aria-labelledby="qviewName" hidden>
+    <div class="qview-card">
+      <div class="qview-media">
+        <img id="qviewImg" src="" alt="">
+        <button class="qview-close" id="qviewClose" aria-label="Close quick view">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 2l12 12M14 2 2 14"/></svg>
+        </button>
+      </div>
+      <div class="qview-info">
+        <span class="qview-brand" id="qviewBrand"></span>
+        <h2 class="qview-name" id="qviewName"></h2>
+        <span class="qview-meta" id="qviewMeta"></span>
+        <p class="qview-desc" id="qviewDesc"></p>
+        <div class="qview-price">
+          <b id="qviewPrice"></b>
+          <s id="qviewOld" hidden></s>
+          <span class="qview-off" id="qviewOff" hidden></span>
+        </div>
+        <div class="qview-actions">
+          <a class="btn btn-solid" id="qviewOrder" href="#" target="_blank" rel="noopener">Order on WhatsApp</a>
+          <a class="btn" href="tel:+96181112800">Call to Order</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand" aria-label="LORD — Home">
+            <span>
+              <img class="brand-logo" src="assets/images/logo-gold.png" alt="LORD" width="1600" height="511" loading="lazy">
+              <span class="brand-tag">Your Accessory ... Your Signature</span>
+            </span>
+          </a>
+          <p>A Lebanese house of luxury perfumes and accessories, for those who lead.</p>
+          <div class="socials">
+            <a href="https://wa.me/96181112800" aria-label="WhatsApp" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.2 1.1 2.2 1.4 2.6 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.1 1.5Z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.8" fill="currentColor"/></svg>
+            </a>
+            <a href="tel:+96181112800" aria-label="Phone">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="products.html?gender=men">Men's Collection</a></li>
+            <li><a href="products.html?gender=women">Women's Collection</a></li>
+            <li><a href="products.html?category=perfume">All Perfumes</a></li>
+            <li><a href="products.html?category=eyewear">All Eyewear</a></li>
+            <li><a href="brands.html">Brands</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>House</h4>
+          <ul>
+            <li><a href="index.html#story">Our Story</a></li>
+            <li><a href="brands.html">Brands</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Newsletter</h4>
+          <p style="color:var(--muted);font-size:0.85rem;font-weight:300;margin-bottom:1rem">Be first to know when rare editions arrive.</p>
+          <form class="newsletter" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='Done ✦';">
+            <input type="email" placeholder="Your email" required aria-label="Email address">
+            <button type="submit">Join</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 LORD — lordaccess.com. All rights reserved.</span>
+        <span>Your Accessory ... Your Signature ✦</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/products-data.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/catalog.js"></script>
+</body>
+</html>

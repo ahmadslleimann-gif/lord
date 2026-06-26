@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم — LORD</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="assets/images/lion-gold.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="admin">
+
+  <!-- ====== LOGIN GATE ====== -->
+  <div class="adm-gate" id="admGate">
+    <form class="adm-gate-card" id="admLoginForm">
+      <img src="assets/images/lion-gold.png" alt="" width="74" height="74">
+      <h1>لوحة التحكم</h1>
+      <p>غرفة العرش — للإدارة فقط</p>
+      <input type="password" id="admPass" placeholder="كلمة المرور" autocomplete="current-password" required>
+      <button type="submit" class="btn btn-solid">دخول</button>
+      <small id="admGateErr" hidden>كلمة المرور غير صحيحة</small>
+    </form>
+  </div>
+
+  <!-- ====== DASHBOARD ====== -->
+  <div class="adm-app" id="admApp" hidden>
+
+    <header class="adm-top">
+      <div class="adm-top-brand">
+        <img src="assets/images/logo-gold.png" alt="LORD" width="1600" height="511">
+        <span>لوحة التحكم</span>
+      </div>
+      <div class="adm-top-actions">
+        <span class="adm-dirty" id="admDirty" hidden>● تعديلات غير منشورة</span>
+        <span class="adm-status" id="admStatus" hidden>تم الحفظ تلقائياً <strong id="admSavedAt"></strong></span>
+        <a class="adm-btn ghost" href="index.html" target="_blank" rel="noopener">عرض الموقع</a>
+        <button class="adm-btn ghost" id="admReset" type="button">إلغاء كل التعديلات</button>
+        <button class="adm-btn ghost" id="admSaveDirect" type="button" hidden>حفظ مباشر ⚡</button>
+        <button class="adm-btn solid" id="admPublishServer" type="button" hidden>نشر عالموقع ⚡</button>
+        <button class="adm-btn solid" id="admDownload" type="button">نشر — تنزيل الملف</button>
+      </div>
+    </header>
+
+    <main class="adm-main">
+
+      <!-- stats -->
+      <section class="adm-stats" id="admStats"></section>
+
+      <!-- toolbar -->
+      <section class="adm-bar">
+        <input type="search" id="admSearch" placeholder="ابحث بالاسم أو الماركة…">
+        <select id="admFilterCat">
+          <option value="">كل الفئات</option>
+          <option value="perfume">عطور</option>
+          <option value="eyewear">نظارات</option>
+          <option value="bags">شنط</option>
+          <option value="accessories">إكسسوارات</option>
+        </select>
+        <select id="admFilterGen">
+          <option value="">الكل</option>
+          <option value="men">رجالي</option>
+          <option value="women">نسائي</option>
+          <option value="unisex">يونيسكس</option>
+        </select>
+        <select id="admSort">
+          <option value="new">أحدث أول</option>
+          <option value="name">الاسم</option>
+          <option value="priceAsc">السعر ↑</option>
+          <option value="priceDesc">السعر ↓</option>
+        </select>
+        <button class="adm-btn ghost" id="admClearFilters" type="button">مسح الفلاتر</button>
+        <span class="adm-bar-spacer"></span>
+        <button class="adm-btn solid" id="admAdd" type="button">+ منتج جديد</button>
+      </section>
+
+      <!-- table -->
+      <section class="adm-table-wrap">
+        <table class="adm-table">
+          <thead>
+            <tr>
+              <th>الصورة</th>
+              <th>المنتج</th>
+              <th>الماركة</th>
+              <th>الفئة</th>
+              <th>الجنس</th>
+              <th>السعر</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="admRows"></tbody>
+        </table>
+        <p class="adm-empty" id="admEmpty" hidden>ما في منتجات مطابقة</p>
+      </section>
+
+      <p class="adm-note">
+        التعديلات بتنحفظ تلقائياً كمسودة بهالمتصفح. حتى تصير ظاهرة عالموقع، اكبس
+        <b>«نشر — تنزيل الملف»</b> واستبدل الملف <code>assets/js/products-data.js</code> بالملف النازل
+        (أو استعمل «حفظ مباشر» إذا ظاهر — بيحفظ عالملف فوراً).
+      </p>
+    </main>
+  </div>
+
+  <!-- ====== ADD/EDIT MODAL ====== -->
+  <div class="adm-modal" id="admModal" hidden>
+    <form class="adm-modal-card" id="admForm">
+      <h2 id="admFormTitle">منتج جديد</h2>
+
+      <div class="adm-form-grid">
+        <label class="adm-field span2">
+          <span>اسم المنتج *</span>
+          <input type="text" id="fName" required maxlength="120">
+        </label>
+
+        <label class="adm-field">
+          <span>الماركة *</span>
+          <input type="text" id="fBrand" list="brandList" required maxlength="60">
+          <datalist id="brandList"></datalist>
+        </label>
+
+        <label class="adm-field">
+          <span>الفئة *</span>
+          <select id="fCategory" required>
+            <option value="perfume">عطور</option>
+            <option value="eyewear">نظارات</option>
+            <option value="bags">شنط</option>
+            <option value="accessories">إكسسوارات</option>
+          </select>
+        </label>
+
+        <label class="adm-field">
+          <span>السعر بالدولار *</span>
+          <input type="number" id="fPrice" min="0.01" step="0.01" required>
+        </label>
+
+        <label class="adm-field">
+          <span>السعر قبل التخفيض <small>(اتركو فاضي إذا ما في تخفيض)</small></span>
+          <input type="number" id="fOldPrice" min="0" step="0.01">
+        </label>
+
+        <label class="adm-field">
+          <span>الجنس *</span>
+          <select id="fGender" required>
+            <option value="men">رجالي</option>
+            <option value="women">نسائي</option>
+            <option value="unisex">يونيسكس</option>
+          </select>
+        </label>
+
+        <label class="adm-field">
+          <span>صورة المنتج</span>
+          <input type="file" id="fImageFile" accept="image/*">
+        </label>
+
+        <div class="adm-field span2 adm-img-preview-wrap">
+          <img id="fImagePreview" src="" alt="" hidden>
+          <span id="fImageHint">اختار صورة — بتنضغط تلقائياً وبتنحفظ مع المنتج</span>
+        </div>
+
+        <label class="adm-field span2">
+          <span>الوصف <small>(بيظهر بنافذة المنتج)</small></span>
+          <textarea id="fDesc" rows="3" maxlength="500"></textarea>
+        </label>
+      </div>
+
+      <div class="adm-modal-actions">
+        <button type="submit" class="adm-btn solid" id="admFormSave">حفظ المنتج</button>
+        <button type="button" class="adm-btn ghost" id="admFormCancel">إلغاء</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="assets/js/products-data.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
