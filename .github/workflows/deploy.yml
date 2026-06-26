@@ -32,16 +32,13 @@ jobs:
 
       - name: Deploy with rsync
         run: |
-          rsync -avz --delete \
+          rsync -avz --delete --progress \
             -e "ssh -i ~/.ssh/id_deploy -p ${{ secrets.SSH_PORT }}" \
             --exclude '.git' \
             --exclude '.github' \
-            --exclude '.htaccess.example' \
-            --exclude 'assets/js/products-data.backup.js' \
             ./ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}"
-
-      - name: Verify deployment
-        run: |
-          ssh -i ~/.ssh/id_deploy -p "${{ secrets.SSH_PORT }}" \
-          "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
-          "ls -la ${{ secrets.DEPLOY_PATH }}"
+            - name: Verify deployment
+              run: |
+                ssh -i ~/.ssh/id_deploy -p "${{ secrets.SSH_PORT }}" \
+                "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+                "ls -la ${{ secrets.DEPLOY_PATH }}"
