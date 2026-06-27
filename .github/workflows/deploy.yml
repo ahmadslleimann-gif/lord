@@ -36,9 +36,13 @@ jobs:
             -e "ssh -i ~/.ssh/id_deploy -p ${{ secrets.SSH_PORT }}" \
             --exclude '.git' \
             --exclude '.github' \
+            --exclude 'stats' \
+            --exclude 'assets/js/products-data.js' \
+            --exclude 'assets/js/products-data.backup.js' \
             ./ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}"
-            - name: Verify deployment
-              run: |
-                ssh -i ~/.ssh/id_deploy -p "${{ secrets.SSH_PORT }}" \
-                "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
-                "ls -la ${{ secrets.DEPLOY_PATH }}"
+
+      - name: Verify deployment
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "${{ secrets.SSH_PORT }}" \
+          "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+          "ls -la ${{ secrets.DEPLOY_PATH }}"
